@@ -2,7 +2,9 @@ package com.example.sam.myapplication.model
 
 import android.content.Context
 import android.widget.Toast
+import com.example.sam.myapplication.objects.Answer
 import com.example.sam.myapplication.objects.User
+import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,7 +18,8 @@ class RegistrationManager (var context:Context ,var login:String, var password :
     public var onSuccess: (String) -> Unit = {output -> }
     public var onFailur: (String) -> Unit = {output -> }
 
-    fun RegToServer() {
+    public fun RegToServer() {
+
         var adapter = Retrofit.Builder()
                 .baseUrl(ROOT_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -24,27 +27,21 @@ class RegistrationManager (var context:Context ,var login:String, var password :
 
         var network = adapter.create<RegisterUser>(RegisterUser::class.java!!)
         var call = network.insertUser(login,password,name)
-        var result:List<User>?=null
-        call.enqueue(object : Callback<Retrofit> {
-            override fun onResponse(call: Call<Retrofit>?, response: Response<Retrofit>?) {
-                if(response!=null) {
-                    var reader: BufferedReader? = null
+        call.enqueue(object : Callback<List<Answer>> {
+            override fun onResponse(call: Call<List<Answer>>?, response: Response<List<Answer>>?) {
+                if(response!!.isSuccessful()) {
 
-                    var output = ""
-
-                    try {
-                        //reader = BufferedReader(InputStreamReader(response.body().`in`()))
-
-                        output = reader!!.readLine()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
+                    var output = response.body()
+                    if(output[0].answer =="successfully registered")
+                        onSuccess("")
+                    else{
+                        onFailur("")
                     }
-                    onSuccess(output)
                 }else {
                     onFailur(response!!.message())
                 }
             }
-            override fun onFailure(call: Call<Retrofit>?, t: Throwable?) {
+            override fun onFailure(call: Call<List<Answer>>?, t: Throwable?) {
                 onFailur(t!!.localizedMessage)
             }
 

@@ -24,12 +24,12 @@ val ROOT_URL = "http://eventofbfu.96.lt/"
 
 interface RegisterUser {
     @FormUrlEncoded
-    @POST("/insertUser.php")
+    @POST("insertUser.php")
     public fun insertUser(
             @Field("email") email:String,
             @Field("password") password:String,
             @Field("fullName") fullName:String
-    ): Call<Retrofit>
+    ): Call<List<Answer>>
 }
 
 interface TableMarkEvent {

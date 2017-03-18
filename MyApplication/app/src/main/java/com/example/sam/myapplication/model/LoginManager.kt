@@ -32,7 +32,7 @@ class LoginManager (var context: Context, var login:String, var pass:String) {
         var result:List<User>?=null
         call.enqueue(object : Callback<List<User>>{
             override fun onResponse(call: Call<List<User>>?, response: Response<List<User>>?) {
-                if(response!=null) {
+               if( response!!.isSuccessful() ) {//response!!.body()!=null
                     result = response.body()
 
                     if (result!!.size == 1 && result!![0].id_user != 0) {

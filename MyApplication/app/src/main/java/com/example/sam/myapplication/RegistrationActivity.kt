@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.example.sam.myapplication.model.RegistrationManager
 
 class RegistrationActivity: AppCompatActivity() {
 
@@ -114,7 +115,7 @@ class RegistrationActivity: AppCompatActivity() {
         } else {
 
             showProgress(true)
-            /*var doReg=RegistrationManager(applicationContext,login,password,fullName)
+            var doReg= RegistrationManager(applicationContext,login,password,fullName)
             doReg.onSuccess={
                 out->
                 if(out=="username or email already exist<br />")
@@ -130,7 +131,7 @@ class RegistrationActivity: AppCompatActivity() {
                 showProgress(false)
                 mess_text!!.text="Ошибка подключения к базе :"+ s
             }
-            doReg.RegToServer()*/
+            doReg.RegToServer()
             //doReg.execute()
         }
     }
