@@ -66,7 +66,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if(savedInstanceState == null)
             openAllEventsFragment()
-        //getPermission()
 
     }
 

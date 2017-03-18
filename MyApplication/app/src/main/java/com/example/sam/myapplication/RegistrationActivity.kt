@@ -14,10 +14,6 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import com.example.sam.myapplication.R
-import com.example.sam.myapplication.model.ServerAPI
-import com.example.sam.myapplication.LoginActivity
-import com.example.sam.myapplication.model.RegistrationManager
 
 class RegistrationActivity: AppCompatActivity() {
 

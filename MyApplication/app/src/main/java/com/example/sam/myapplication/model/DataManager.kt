@@ -6,9 +6,6 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.IBinder
 import android.widget.Toast
-import com.example.sam.myapplication.model.CurrentUser.Companion.login
-import com.example.sam.myapplication.model.ServerAPI
-import com.example.sam.myapplication.model.LDbHelper
 import com.example.sam.myapplication.objects.*
 import com.example.sam.myapplication.toSqlDate
 import retrofit2.Call
@@ -26,6 +23,12 @@ class DataManager(var context: Context) {
 
     public var onSuccess: (String) -> Unit = {output -> }
     public var onFailur: (String) -> Unit = {output -> }
+
+    private var onSuccessTableEvents: () -> Unit = { -> }
+    private var onSuccessTableTagEvent: () -> Unit = { -> }
+    private var onSuccessTableTags: () -> Unit = { -> }
+    private var onSuccessTableMarkEvents: () -> Unit = { -> }
+    private var onSuccessMyEvents: () -> Unit = { -> }
 
     companion object{
         public var accession=true//=false во время обновления
@@ -101,7 +104,64 @@ class DataManager(var context: Context) {
             PictureManager.clearPicturesCache(context)
         }else
             LDbHelper.initLDbHelper(context)
+
+        onSuccessTableEvents = { ->
+            cacheTableTagEvent()
+        }
+        onSuccessTableTagEvent = { ->
+            cacheTableTags()
+        }
+        onSuccessTableTags = { ->
+            cacheTableMarkEvent()
+        }
+        onSuccessTableMarkEvents = { ->
+            cacheTableMyEvents()
+        }
+        onSuccessMyEvents = { ->
+            resetOnSuccess()
+            onSuccess("")}
         cacheTableEvents()
+    }
+
+    public fun refrashDb(){
+        if(LDbHelper.isLocalDataBaseExist(context)) {
+            LDbHelper.initLDbHelper(context)
+            LDbHelper.clear_TABLE_EVENTS()
+            LDbHelper.clear_TABLE_TAG_EVENT()
+            LDbHelper.clear_TABLE_MARKEVENTS()
+            LDbHelper.clear_TABLE_MYEVENTS()
+            PictureManager.clearPicturesCache(context)
+        }else
+            LDbHelper.initLDbHelper(context)
+
+        onSuccessTableEvents = { ->
+            cacheTableTagEvent()
+        }
+        onSuccessTableTagEvent = { ->
+            cacheTableMarkEvent()
+        }
+        onSuccessTableMarkEvents = { ->
+            cacheTableMyEvents()
+        }
+        onSuccessMyEvents = { ->
+            resetOnSuccess()
+            onSuccess("")
+        }
+        cacheTableEvents()
+    }
+
+    public fun refrashMyMarks(){
+        if(LDbHelper.isLocalDataBaseExist(context)) {
+            LDbHelper.initLDbHelper(context)
+            LDbHelper.clear_TABLE_MARKEVENTS()
+            PictureManager.clearPicturesCache(context)
+        }else
+            LDbHelper.initLDbHelper(context)
+        onSuccessTableMarkEvents = { ->
+            resetOnSuccess()
+            onSuccess("")
+        }
+        cacheTableMarkEvent()
     }
 
     private fun cacheTableEvents() {
@@ -123,7 +183,7 @@ class DataManager(var context: Context) {
                         LDbHelper.addEvents(result!!)
                         accession=true
                     }
-                    cacheTableTagEvent()
+                    onSuccessTableEvents()
                 }else {
                     onFailur(response!!.message())
                 }
@@ -154,7 +214,7 @@ class DataManager(var context: Context) {
                         LDbHelper.addLinkTagEvent(result!!)
                         accession=true
                     }
-                    cacheTableTags()
+                    onSuccessTableTagEvent()
                 }else {
                     onFailur(response!!.message())
                 }
@@ -185,7 +245,8 @@ class DataManager(var context: Context) {
                         LDbHelper.addTags(result!!)
                         accession=true
                     }
-                    cacheTableMarkEvent()
+                    onSuccessTableTags()
+
                 }else {
                     onFailur(response!!.message())
                 }
@@ -216,7 +277,7 @@ class DataManager(var context: Context) {
                         LDbHelper.addMarkEvents(result!!)
                         accession=true
                     }
-                    cacheTableMyEvents()
+                    onSuccessTableMarkEvents()
                 }else {
                     onFailur(response!!.message())
                 }
@@ -247,8 +308,7 @@ class DataManager(var context: Context) {
                         LDbHelper.addMyEvents(result!!)
                         accession=true
                     }
-                    accession=true
-                    onSuccess("")
+                    onSuccessMyEvents()
                 }else {
                     onFailur(response!!.message())
                 }
@@ -258,5 +318,13 @@ class DataManager(var context: Context) {
             }
 
         })
+    }
+
+    private fun resetOnSuccess(){
+        onSuccessTableEvents = { -> }
+        onSuccessTableTagEvent = { -> }
+        onSuccessTableTags = { -> }
+        onSuccessTableMarkEvents = { -> }
+        onSuccessMyEvents = { -> }
     }
 }

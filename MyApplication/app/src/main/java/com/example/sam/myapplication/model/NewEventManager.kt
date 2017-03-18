@@ -12,11 +12,12 @@ class NewEventManager(var context:Context, var newEvent: NewEvent): AsyncTask<Vo
     public var inCancelled: () -> Unit={->}
 
     override fun doInBackground(vararg params: Void): Boolean? {
-        if(ServerAPI.Connector.sendNewEvent(newEvent)){
+       /* if(ServerAPI.Connector.sendNewEvent(newEvent)){
             return true
         }else {
             return false
-        }
+        }*/
+        return true
     }
     override fun onPostExecute(success: Boolean) {
         //?????????
@@ -30,7 +31,7 @@ class NewEventManager(var context:Context, var newEvent: NewEvent): AsyncTask<Vo
             ev.execute()
         }*/
         //
-        inPostExecute(success, ServerAPI.Connector.mess)
+        //inPostExecute(success, ServerAPI.Connector.mess)
     }
     override fun onCancelled() {
         inCancelled()

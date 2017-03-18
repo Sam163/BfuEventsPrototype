@@ -7,9 +7,6 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Environment
 import android.util.Log
-import com.example.sam.myapplication.objects.Event
-import com.example.sam.myapplication.model.ServerAPI
-import com.example.sam.myapplication.model.LDbHelper
 import java.io.*
 import java.net.MalformedURLException
 import java.net.URL

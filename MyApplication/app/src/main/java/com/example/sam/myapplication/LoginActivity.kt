@@ -72,7 +72,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun attemptLogin() {
-        //showMainActivity()
         mess_text!!.text=""
 
         login_text!!.error = null
@@ -116,7 +115,7 @@ class LoginActivity : AppCompatActivity() {
             progress_txt!!.text="Авторизация"
             showProgress(true)
 
-            var doLogin=LoginManager(applicationContext,login,password)//UserLoginTask(login, password)
+            var doLogin=LoginManager(applicationContext,login,password)
             doLogin.onSuccess={success->
                 if(success) {
                     saveLastUser(login, password)
@@ -139,27 +138,10 @@ class LoginActivity : AppCompatActivity() {
             }
             doLogin.onFailur={mess->
                 showProgress(false)
-                mess_text!!.text= "Ошибка сервера: "+mess
+                mess_text!!.text = "Проверьте логин или пароль."
+                //mess_text!!.text= "Ошибка сервера: "+mess
             }
             doLogin.LogIn()
-            /*
-            if(login=="test@test.ru") {
-                saveLastUser(login, password)
-                progress_txt!!.text = "Загрузка данных."
-                //LDbHelper.deleteLocalDataBase(applicationContext)
-                var cacheDB = DataManager(applicationContext)
-                cacheDB.cacheFreshDB()
-                cacheDB.onSuccess = {
-                    showMainActivity()
-                }
-                cacheDB.onFailur = {
-                    showProgress(false)
-                    mess_text!!.text = "Ошибка при загрузки данных."
-                }
-            }
-            else{
-                mess_text!!.text = "Неверный логин или пароль."
-            }*/
         }
     }
 

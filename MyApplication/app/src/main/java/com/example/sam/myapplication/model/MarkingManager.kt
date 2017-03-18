@@ -30,7 +30,7 @@ class MarkingManager (var context: Context, var idEvent: Int, var markType: Int,
     }
 
     override fun doInBackground(vararg params: Void): Boolean? {
-        if(set) {
+       /* if(set) {
             if (ServerAPI.Connector.sendMarkEvent(idEvent, markType)) {
                 return true
             } else {
@@ -43,7 +43,8 @@ class MarkingManager (var context: Context, var idEvent: Int, var markType: Int,
             } else {
                 return false
             }
-        }
+        }*/
+        return true
     }
     override fun onPostExecute(success: Boolean) {
         //?????????
@@ -57,7 +58,7 @@ class MarkingManager (var context: Context, var idEvent: Int, var markType: Int,
             ev.execute()
         }*/
         //
-        inPostExecute(success, ServerAPI.Connector.mess)
+        inPostExecute(success, "")
     }
     override fun onCancelled() {
         inCancelled()

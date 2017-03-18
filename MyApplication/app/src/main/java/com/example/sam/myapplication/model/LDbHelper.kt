@@ -121,6 +121,22 @@ class LDbHelper private constructor (context: Context) : SQLiteOpenHelper(contex
                 db!!.delete(DB_TABLE_MYEVENTS, null,  null)
             }
 
+            public fun clear_TABLE_EVENTS(){
+                db!!.delete(DB_TABLE_EVENTS, null,  null)
+            }
+            public fun clear_TABLE_TAGS(){
+                db!!.delete(DB_TABLE_TAGS, null,  null)
+            }
+            public fun clear_TABLE_TAG_EVENT(){
+                db!!.delete(DB_TABLE_TAG_EVENT, null,  null)
+            }
+            public fun clear_TABLE_MARKEVENTS(){
+                db!!.delete(DB_TABLE_MARKEVENTS, null,  null)
+            }
+            public fun clear_TABLE_MYEVENTS(){
+                db!!.delete(DB_TABLE_MYEVENTS, null,  null)
+            }
+
             public fun deleteLocalDataBase(context: Context){
                 closeLDbHelper()
                 context.deleteDatabase(DB_NAME)

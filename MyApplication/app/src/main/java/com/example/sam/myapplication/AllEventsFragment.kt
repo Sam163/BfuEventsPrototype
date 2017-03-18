@@ -41,17 +41,16 @@ class AllEventsFragment : Fragment() {
         var refreshBar = view.findViewById(R.id.refresh) as SwipeRefreshLayout
         refreshBar.setOnRefreshListener {
 
-          /*  var refrashDB=DataManager(context)
+            var refrashDB=DataManager(context)
             refrashDB.onSuccess={
                 adapter.dataChange(DataManager.getDayEvents())
                 refreshBar.isRefreshing=false
             }
             refrashDB.onFailur={
                 adapter.dataChange(DataManager.getDayEvents())
-                Toast.makeText(context, "WTF", Toast.LENGTH_LONG).show()
                 refreshBar.isRefreshing=false
             }
-            refrashDB.cacheFreshDB()*/
+            refrashDB.refrashDb()
         }
 
         adapter.activity = activity
