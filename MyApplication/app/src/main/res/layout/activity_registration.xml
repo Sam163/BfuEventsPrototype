@@ -77,6 +77,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Создать аккаунт"
+            android:background="@color/colorPrimary"
+            android:textColor="#FFFFFF"
             android:textStyle="bold"
             />
         <Button
@@ -84,6 +86,8 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:textColor="#FFF"
             android:layout_marginTop="16dp"
             android:text="Отмена"
             android:textStyle="bold"

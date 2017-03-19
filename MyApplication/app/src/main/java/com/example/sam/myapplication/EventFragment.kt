@@ -11,16 +11,13 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.provider.CalendarContract.Reminders
 import android.provider.ContactsContract
 import android.util.EventLog
 import java.util.*
 import android.content.Intent
 import android.graphics.Color
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.sam.myapplication.objects.Event
 import com.example.sam.myapplication.R
 import com.example.sam.myapplication.model.MarkingManager
@@ -50,11 +47,19 @@ class EventFragment : Fragment() {
         userMailText.text = event.email
 
         var evImg = view.findViewById(R.id.img) as ImageView
+        var progressImg = view.findViewById(R.id.progress_image) as ProgressBar
+
         var imgLoader=PictureManager(context,event.picUrl)
         imgLoader.inPostExecute={map, success->
-           if( success){
-               evImg.setImageBitmap(map)
-           }
+            if( success){
+                evImg.setImageBitmap(map)
+                evImg.visibility = View.VISIBLE
+                progressImg.visibility = View.GONE
+            }
+            else{
+                evImg.visibility = View.VISIBLE
+                progressImg.visibility = View.GONE
+            }
         }
         imgLoader.execute()
 
@@ -91,7 +96,8 @@ class EventFragment : Fragment() {
                 likeButton.setBackgroundResource(R.drawable.btn_like)
                 likeButton.setTextColor(Color.WHITE)
                 likeButton.text = "Заинтересован"
-               /* var query=MarkingManager(context, event.id, MarkingManager.getMarkInterested(), true)
+                callAlertDialog(event)
+                /* var query=MarkingManager(context, event.id, MarkingManager.getMarkInterested(), true)
                 query.inPostExecute={
                     success,s->
                     if(success){
@@ -120,12 +126,21 @@ class EventFragment : Fragment() {
         activity.title = "О событии"
     }
 
-    private fun callAlertDialog(){
+    private fun callAlertDialog(event : Event){
         var ad = AlertDialog.Builder(activity)
         ad.setTitle("Напоминание")
         ad.setMessage("Добавить в календарь напоминание?")
         ad.setPositiveButton("Да", DialogInterface.OnClickListener { dialog, which ->
-            //TODO addToCalendar()
+            var dateTimeBegin = Calendar.getInstance()
+            var date = toSqlDate(event.date)
+            var timeBegin = toSqlTime(event.timeBegin)
+            dateTimeBegin.set(date.year, date.month, date.day, timeBegin.hours, timeBegin.minutes)
+
+            var dateTimeEnd = Calendar.getInstance()
+            var timeEnd = toSqlTime(event.timeEnd)
+            dateTimeEnd.set(date.year, date.month, date.day, timeEnd.hours, timeEnd.minutes)
+
+            addToCalendar(dateTimeBegin,dateTimeEnd, event.name)
         })
         ad.setNegativeButton("Нет", DialogInterface.OnClickListener { dialog, which ->
             dialog.dismiss()

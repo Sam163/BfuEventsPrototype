@@ -39,7 +39,6 @@ class CreateEventDialogFragment: DialogFragment() {
         var btnAddBeginDate = view.findViewById(R.id.add_begin_date) as Button
         var btnAddEndDate = view.findViewById(R.id.add_end_date) as Button
         var btnOk = view.findViewById(R.id.btn_ok) as Button
-        var btnCancel = view.findViewById(R.id.btn_cancel) as Button
 
         var nameText = view.findViewById(R.id.event_name) as TextView
         var descriptionText = view.findViewById(R.id.event_description) as TextView
@@ -87,9 +86,6 @@ class CreateEventDialogFragment: DialogFragment() {
                 }
                 evMenager.execute()
             }
-        }
-        btnCancel.setOnClickListener {
-            dismiss()
         }
         return view
     }

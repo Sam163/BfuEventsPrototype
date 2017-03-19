@@ -2,7 +2,8 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation = "horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
     android:padding="10dp"
     android:layout_margin="3dp">
    <LinearLayout
@@ -22,6 +23,7 @@
                android:layout_height="wrap_content"
                android:textAlignment="center"
                android:text="25\nMarch"
+               android:textColor="@color/bfuOrange"
                android:textSize="15sp" />
        </LinearLayout>
        <LinearLayout
@@ -37,6 +39,7 @@
                android:gravity="center"
                android:layout_height="match_parent"
                android:text="number of events is: 3"
+               android:textColor="@color/colorPrimary"
                android:textSize="20sp"
                android:layout_weight="1"/>
        </LinearLayout>

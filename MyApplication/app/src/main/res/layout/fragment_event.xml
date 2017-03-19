@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.sam.myapplication.EventFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,12 +23,18 @@
                 android:textSize="30sp"
                 android:textStyle="bold"
                 android:id="@+id/evname_txt"/>
+            <ProgressBar
+                android:id="@+id/progress_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:layout_marginTop="20dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/bfu_logo"
+                android:visibility="gone"
                 android:id="@+id/img"/>
 
             <TextView
