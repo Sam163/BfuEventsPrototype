@@ -95,6 +95,13 @@ class DataManager(var context: Context) {
             } else
                 return ArrayList<Event>()
         }
+
+        fun setLikeOnSuccessTransaction(like:MarkedEvent){
+            LDbHelper.addMarkEvent(like.idEvent,like.idType)
+        }
+        fun setLikeOnSuccessTransaction(idEvent:Int, idType:Int){
+            LDbHelper.addMarkEvent(idEvent,idType)
+        }
     }
 
     public fun cacheFreshDB(){

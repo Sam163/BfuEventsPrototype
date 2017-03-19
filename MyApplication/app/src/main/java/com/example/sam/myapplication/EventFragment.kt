@@ -31,7 +31,7 @@ class EventFragment : Fragment() {
     }
 
     val TXT_INTERESTED="Заинтересован"
-    val TXT_NOT_INTERESTED="Не заинтересован"
+    val TXT_NOT_INTERESTED="Интересно ?"
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater!!.inflate(R.layout.fragment_event, container, false)
@@ -76,41 +76,22 @@ class EventFragment : Fragment() {
         }
 
         likeButton.setOnClickListener {
-            if (MarkingManager.getCurrentUserMark(event.id)){
-                likeButton.setBackgroundResource(R.drawable.btn_unlike)
-                likeButton.setTextColor(Color.BLACK)
-                likeButton.text = "Не заинтересован"
-                /*var query=MarkingManager(context, event.id, MarkingManager.getMarkInterested(), false)
-                query.inPostExecute={
-                    success,s->
-                    if(!success){
-                        Toast.makeText(activity.applicationContext, "Не удалось отправить запрос!", Toast.LENGTH_SHORT).show()
-                        likeButton.setBackgroundResource(R.drawable.btn_like)
-                        likeButton.setTextColor(Color.WHITE)
-                        likeButton.text = "Заинтересован"
-                    }
+            if (!MarkingManager.getCurrentUserMark(event.id)){
+                var query=MarkingManager(context, event.id, MarkingManager.getMarkInterested())
+                query.onSuccess={s->
+                    likeButton.setBackgroundResource(R.drawable.btn_like)
+                    likeButton.setTextColor(Color.WHITE)
+                    likeButton.text = TXT_INTERESTED
                 }
-                query.execute()*/
-            }
-            else{
-                likeButton.setBackgroundResource(R.drawable.btn_like)
-                likeButton.setTextColor(Color.WHITE)
-                likeButton.text = "Заинтересован"
-                callAlertDialog(event)
-                /* var query=MarkingManager(context, event.id, MarkingManager.getMarkInterested(), true)
-                query.inPostExecute={
-                    success,s->
-                    if(success){
-                        callAlertDialog()
-                    }
-                    else{
-                        Toast.makeText(activity.applicationContext, "Не удалось отправить запрос!", Toast.LENGTH_SHORT).show()
+                query.onFailur={s->
+                    if(s!="exist") {
+                        Toast.makeText(activity.applicationContext, "Упс! Не удалось завершить запрос!", Toast.LENGTH_SHORT).show()
                         likeButton.setBackgroundResource(R.drawable.btn_unlike)
                         likeButton.setTextColor(Color.BLACK)
-                        likeButton.text = "Не заинтересован"
+                        likeButton.text = TXT_NOT_INTERESTED
                     }
                 }
-                query.execute()*/
+                query.SendLikeToServer()
             }
         }
         retainInstance = true

@@ -32,6 +32,30 @@ interface RegisterUser {
     ): Call<List<Answer>>
 }
 
+interface AddLike {
+    @FormUrlEncoded
+    @POST("addLike.php")
+    public fun insertLike(
+            @Field("id_user") idUser:Int,
+            @Field("id_event") idEvent:Int,
+            @Field("id_type") idType:Int
+    ): Call<List<Answer>>
+}
+
+interface InsertEvent {
+    @FormUrlEncoded
+    @POST("insertEvent.php")
+    public fun insertEvent(
+            @Field("date") date:String,
+            @Field("timeBegin") timeBegin:String,
+            @Field("timeEnd") timeEnd:String,
+            @Field("name") name:String,
+            @Field("info") info:String,
+            @Field("id_user") _id_user:String,
+            @Field("tagID") _tagID:String
+    ): Call<List<Answer>>
+}
+
 interface TableMarkEvent {
     @FormUrlEncoded
     @POST("/getLikes.php")

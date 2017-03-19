@@ -16,11 +16,11 @@ class NewEvent{
     public var info:String="no info"
     public var img: Bitmap?=null
     public var id_user:Int=0
-    public var arrTagID=ArrayList<Int>()
+    public var tagID:Int=0
 
     constructor(_date: Date, _timeB: Time,
                 _timeE: Time, _name:String, _info:String,
-                bitmap: Bitmap?, _id_user:Int, _arrTagID:ArrayList<Int> ){
+                bitmap: Bitmap?, _id_user:Int, _tagID:Int ){
         date = _date
         timeBegin = _timeB
         timeEnd = _timeE
@@ -28,7 +28,7 @@ class NewEvent{
         info = _info
         img = bitmap
         id_user = _id_user
-        arrTagID = _arrTagID
+        tagID = _tagID
     }
     constructor(_id_user:Int){
         id_user = _id_user

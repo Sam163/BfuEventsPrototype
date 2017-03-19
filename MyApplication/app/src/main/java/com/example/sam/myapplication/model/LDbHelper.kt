@@ -61,8 +61,8 @@ class LDbHelper private constructor (context: Context) : SQLiteOpenHelper(contex
             //таб. мои отмеченные события
             private val DB_TABLE_MARKEVENTS = "mark_event"
             private val DB_COLUMN_TYPE = "mark_type"
-            public val MARK_TYPE_INTERESTED = 0//TODO взять айдишник из базы
-            public val MARK_TYPE_ILLGO = 0//TODO взять айдишник из базы
+            public val MARK_TYPE_INTERESTED = 2
+            public val MARK_TYPE_ILLGO = 1
             //private val DB_COLUMN_EVENTID = "id_event"//дублирование
 
             private val DB_CREATE_EVENTS = "CREATE TABLE " +
@@ -142,11 +142,11 @@ class LDbHelper private constructor (context: Context) : SQLiteOpenHelper(contex
                 context.deleteDatabase(DB_NAME)
             }
 
-           /* public fun addEvents(arr: ArrayList<Event>) {
+            public fun addEvents(arr: ArrayList<Event>) {
                 for (task in arr) {
                     addEvent(task)
                 }
-            }*/
+            }
             public fun addEvents(arr: List<Event>) {
                 for (task in arr) {
                     addEvent(task)
@@ -237,6 +237,12 @@ class LDbHelper private constructor (context: Context) : SQLiteOpenHelper(contex
                     cv.put(DB_COLUMN_TYPE,item.idType)
                     db!!.insert(DB_TABLE_MARKEVENTS, null, cv)
                 }
+            }
+            public fun addMarkEvent(eventID: Int, mark: Int){
+                    var cv = ContentValues()
+                    cv.put(DB_COLUMN_EVENTID, eventID)
+                    cv.put(DB_COLUMN_TYPE,mark)
+                    db!!.insert(DB_TABLE_MARKEVENTS, null, cv)
             }
 
             public fun getEvents():ArrayList<Event> {

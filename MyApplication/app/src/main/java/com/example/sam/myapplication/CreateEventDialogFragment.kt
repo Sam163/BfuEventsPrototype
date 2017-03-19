@@ -15,6 +15,7 @@ import com.example.sam.myapplication.model.CurrentUser
 import com.example.sam.myapplication.model.NewEventManager
 import com.example.sam.myapplication.objects.NewEvent
 import java.io.FileNotFoundException
+import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -56,7 +57,7 @@ class CreateEventDialogFragment: DialogFragment() {
             dialog.show(fragmentManager,null)
         }
         btnAddEndDate.setOnClickListener {
-            var dialog = DateDialogFragment()
+            var dialog = TimeDialogFragment()
             dialog.setTargetFragment(this, REQUEST_TIME_END)
             dialog.show(fragmentManager,null)
         }
@@ -66,8 +67,6 @@ class CreateEventDialogFragment: DialogFragment() {
 
             if(nameText.text.toString() == "" || descriptionText.text.toString() == "")
                 Toast.makeText(activity.applicationContext, "Имеются пустые поля ввода", Toast.LENGTH_SHORT).show()
-            else if(event.timeEnd < event.timeBegin)
-                Toast.makeText(activity.applicationContext, "Вы перепутали начало и конец события", Toast.LENGTH_SHORT).show()
             else if(event.date < todayDate){
                 Toast.makeText(activity.applicationContext, "Событие нельзя создавать в прошлом", Toast.LENGTH_SHORT).show()
             }
@@ -76,15 +75,14 @@ class CreateEventDialogFragment: DialogFragment() {
                 event.name = nameText.text.toString()
                 event.info  = descriptionText.text.toString()
                 var evMenager=NewEventManager(activity.applicationContext, event )
-                evMenager.inPostExecute={
-                    success,s->
-                    if(success){
-                        dismiss()
-                    }else{
-                        Toast.makeText(activity.applicationContext, "Упс: "+s, Toast.LENGTH_LONG).show()
-                    }
+                evMenager.onSuccess={
+                    message->
+                    dismiss()
                 }
-                evMenager.execute()
+                evMenager.onFailur={
+                    Toast.makeText(activity.applicationContext, "Упс: запрос не удался", Toast.LENGTH_LONG).show()
+                }
+                evMenager.SendNewEventToServer()
             }
         }
         return view
@@ -110,8 +108,8 @@ class CreateEventDialogFragment: DialogFragment() {
                     event.timeBegin=toSqlTime(date)
                 }
                 REQUEST_TIME_END -> {
-                    var date = data!!.getSerializableExtra("date") as Date
-                    var format = SimpleDateFormat("Окончание dd.MM.YYYY в\n HH:mm")
+                    var date = data!!.getSerializableExtra("date") as Time
+                    var format = SimpleDateFormat("Окончание в HH:mm")
                     endDate.text = format.format(date)
                     event.timeEnd = toSqlTime(date)
                 }
