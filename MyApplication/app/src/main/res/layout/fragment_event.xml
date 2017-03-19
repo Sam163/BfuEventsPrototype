@@ -49,15 +49,16 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_margin="10dp"
-                android:background="#545353" />
+                android:layout_height="1dp"
+                android:layout_margin="15dp"
+                android:background="#b7b7b7" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Создатель: no name"
                 android:textColor="@color/colorAccent"
+                android:layout_marginLeft="15dp"
                 android:textSize="15sp"
                 android:id="@+id/user_name_txt"/>
 
@@ -66,15 +67,19 @@
                 android:layout_height="wrap_content"
                 android:text="Почта: email@mail.com"
                 android:textColor="@color/colorAccent"
+                android:layout_marginLeft="15dp"
                 android:textSize="15sp"
                 android:id="@+id/user_mail_txt"/>
             <Button
-                android:padding="5dp"
+                android:padding="15dp"
                 android:id="@+id/like_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/btn_like"
-                android:text="Заинтересован"
+                android:text="Подписан"
             />
         </LinearLayout>
     </ScrollView>

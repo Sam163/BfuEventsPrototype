@@ -30,7 +30,7 @@ class EventAdapter : RecyclerView.Adapter<EventAdapter.ViewHolder>() {
 
         holder!!.name.text = event.name
 
-        var format = SimpleDateFormat("hh:mm")//Время по формату
+        var format = SimpleDateFormat("HH:mm")
         var time = format.format(toSqlTime(data[position].timeBegin))
         holder.time.text =  time
 

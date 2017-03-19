@@ -18,6 +18,7 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.security.AccessControlContext
 import java.sql.Date
+import java.util.*
 
 class DataManager(var context: Context) {
 
@@ -85,10 +86,15 @@ class DataManager(var context: Context) {
                         }
                     }
                 }
+                Collections.sort(de,FirstDateComparator())
+                for (day in de) {
+                    Collections.sort(day._listEvents,FirstTimeComparator())
+                }
                 return de
             }else
                 return ArrayList<DayEvent>()
         }
+
         fun getEventsByDate(date:String):ArrayList<Event>{
             if(accession) {
                 return LDbHelper.getEventsByDate(toSqlDate(date))

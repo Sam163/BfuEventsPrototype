@@ -330,21 +330,22 @@ class LDbHelper private constructor (context: Context) : SQLiteOpenHelper(contex
                     var resultQuery = db!!.query(DB_TABLE_EVENTS, null, "_id " + " = ?",
                             arrayOf(idEv.toString()), null, null, null)
                     resultQuery.moveToFirst()
-                    result.add(Event(
-                            resultQuery.getInt(resultQuery.getColumnIndex("_id")),
-                            toSqlDate(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_DATE))),
-                            toSqlTime(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_TIME_BEGIN))),
-                            toSqlTime(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_TIME_END))),
-                            resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_NAME)),
-                            resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_INFO)),
-                            resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_PIC_URL)),
-                            resultQuery.getInt(resultQuery.getColumnIndex(DB_COLUMN_LIKES)),
-                            resultQuery.getInt(resultQuery.getColumnIndex(DB_COLUMN_GO)),
-                            resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_USERNAME)),
-                            resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_USERCONTACT))
-                    )
-                    )
-
+                    if(resultQuery.count!=0) {
+                        result.add(Event(
+                                resultQuery.getInt(resultQuery.getColumnIndex("_id")),
+                                toSqlDate(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_DATE))),
+                                toSqlTime(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_TIME_BEGIN))),
+                                toSqlTime(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_TIME_END))),
+                                resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_NAME)),
+                                resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_INFO)),
+                                resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_PIC_URL)),
+                                resultQuery.getInt(resultQuery.getColumnIndex(DB_COLUMN_LIKES)),
+                                resultQuery.getInt(resultQuery.getColumnIndex(DB_COLUMN_GO)),
+                                resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_USERNAME)),
+                                resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_USERCONTACT))
+                        )
+                        )
+                    }
                 }
                 return result
             }
@@ -356,21 +357,22 @@ class LDbHelper private constructor (context: Context) : SQLiteOpenHelper(contex
                     var resultQuery = db!!.query(DB_TABLE_EVENTS, null, "_id " + " = ?",
                             arrayOf(idEv.toString()), null, null, null)
                     resultQuery.moveToFirst()
-                    result.add(Event(
-                            resultQuery.getInt(resultQuery.getColumnIndex("_id")),
-                            toSqlDate(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_DATE))),
-                            toSqlTime(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_TIME_BEGIN))),
-                            toSqlTime(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_TIME_END))),
-                            resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_NAME)),
-                            resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_INFO)),
-                            resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_PIC_URL)),
-                            resultQuery.getInt(resultQuery.getColumnIndex(DB_COLUMN_LIKES)),
-                            resultQuery.getInt(resultQuery.getColumnIndex(DB_COLUMN_GO)),
-                            resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_USERNAME)),
-                            resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_USERCONTACT))
-                    )
-                    )
-
+                    if(resultQuery.count!=0) {
+                        result.add(Event(
+                                resultQuery.getInt(resultQuery.getColumnIndex("_id")),
+                                toSqlDate(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_DATE))),
+                                toSqlTime(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_TIME_BEGIN))),
+                                toSqlTime(resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_TIME_END))),
+                                resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_NAME)),
+                                resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_INFO)),
+                                resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_PIC_URL)),
+                                resultQuery.getInt(resultQuery.getColumnIndex(DB_COLUMN_LIKES)),
+                                resultQuery.getInt(resultQuery.getColumnIndex(DB_COLUMN_GO)),
+                                resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_USERNAME)),
+                                resultQuery.getString(resultQuery.getColumnIndex(DB_COLUMN_USERCONTACT))
+                        )
+                        )
+                    }
                 }
                 return result
             }

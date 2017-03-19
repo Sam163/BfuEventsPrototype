@@ -3,6 +3,7 @@ package com.example.sam.myapplication
 import android.Manifest
 import android.annotation.TargetApi
 import android.app.FragmentManager
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -125,7 +126,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            val cnt = supportFragmentManager.backStackEntryCount
+            if (cnt == 0){
+                val intent = Intent()
+                intent.action = Intent.ACTION_MAIN
+                intent.addCategory(Intent.CATEGORY_HOME)
+                startActivity(intent)
+            }
+            else
+                super.onBackPressed()
         }
     }
 
@@ -150,7 +159,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //Toast.makeText(this, supportFragmentManager.backStackEntryCount.toString(), Toast.LENGTH_SHORT).show()
     }
 
-     fun openAllEventsFragment(){
+    fun openAllEventsFragment(){
         var fragment = AllEventsFragment()
         var tr = supportFragmentManager.beginTransaction()
         tr.replace(R.id.fragment, fragment)

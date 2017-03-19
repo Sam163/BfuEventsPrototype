@@ -23,15 +23,14 @@ import com.example.sam.myapplication.R
 import com.example.sam.myapplication.model.MarkingManager
 import com.example.sam.myapplication.model.PictureManager
 
-
 class EventFragment : Fragment() {
 
     companion object{
         lateinit var event: Event
     }
 
-    val TXT_INTERESTED="Заинтересован"
-    val TXT_NOT_INTERESTED="Интересно ?"
+    val TXT_INTERESTED="Подписан"
+    val TXT_NOT_INTERESTED="Не подписан"
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater!!.inflate(R.layout.fragment_event, container, false)
@@ -42,9 +41,9 @@ class EventFragment : Fragment() {
         var evInfoText = view.findViewById(R.id.evinfo_txt) as TextView
         evInfoText.text = event.info
         var userNameText = view.findViewById(R.id.user_name_txt) as TextView
-        userNameText.text= event.fullName
+        userNameText.text= "Автор: ${event.fullName}"
         var userMailText = view.findViewById(R.id.user_mail_txt) as TextView
-        userMailText.text = event.email
+        userMailText.text = "Почта: ${event.email}"
 
         var evImg = view.findViewById(R.id.img) as ImageView
         var progressImg = view.findViewById(R.id.progress_image) as ProgressBar
@@ -82,6 +81,8 @@ class EventFragment : Fragment() {
                     likeButton.setBackgroundResource(R.drawable.btn_like)
                     likeButton.setTextColor(Color.WHITE)
                     likeButton.text = TXT_INTERESTED
+
+                    callAlertDialog(event)
                 }
                 query.onFailur={s->
                     if(s!="exist") {
@@ -139,3 +140,4 @@ class EventFragment : Fragment() {
         startActivity(intent)
     }
 }
+
