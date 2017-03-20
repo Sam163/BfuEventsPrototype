@@ -410,6 +410,9 @@ class LDbHelper private constructor (context: Context) : SQLiteOpenHelper(contex
 
             public fun deleteEventByID(id:Int){
                 db!!.delete(DB_TABLE_EVENTS, "_id = ?",  arrayOf(id.toString()))
+                db!!.delete(DB_TABLE_TAG_EVENT, DB_COLUMN_EVENTID+" = ?",  arrayOf(id.toString()))
+                db!!.delete(DB_TABLE_MARKEVENTS, DB_COLUMN_EVENTID+" = ?",  arrayOf(id.toString()))
+                db!!.delete(DB_TABLE_MYEVENTS, DB_COLUMN_EVENTID+" = ?",  arrayOf(id.toString()))
             }
 
             public fun deleteMarkEvent(eventID: Int, mark: Int){

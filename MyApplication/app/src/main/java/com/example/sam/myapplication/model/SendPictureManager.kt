@@ -1,6 +1,7 @@
 package com.example.sam.myapplication.model
 
 import android.content.Context
+import android.net.Uri
 import com.example.sam.myapplication.objects.Answer
 import com.example.sam.myapplication.objects.PictureToSend
 import retrofit2.Call
@@ -13,6 +14,10 @@ import okhttp3.MediaType
 import okhttp3.RequestBody
 import okhttp3.MultipartBody
 import java.io.File
+import java.net.URI
+import android.provider.MediaStore
+
+
 
 
 /**
@@ -30,28 +35,36 @@ class SendPictureManager (var context: Context, var ps:PictureToSend) {
                 .build()
 
         var network = adapter.create<PostImage>(PostImage::class.java!!)
-        // Map is used to multipart the file using okhttp3.RequestBody
-        var file = File(ps.uri.path)
+        //TODO надо переименовать файл, в имени пересылать id события
+
+        var file = File(ps.path)
 
         // Parsing any Media type file
         var requestBody = RequestBody.create(MediaType.parse("*/*"), file)
         var fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody)
         var filename = RequestBody.create(MediaType.parse("text/plain"), file.getName())
 
-        var call = network.uploadFile(fileToUpload, filename, ps.id)
-        call.enqueue(object : Callback<List<Answer>> {
-            override fun onResponse(call: Call<List<Answer>>, response: Response<List<Answer>>) {
-                val output = response.body()
-                if (output != null) {
-                    onSuccess()
-                        Toast.makeText(context, "ololo", Toast.LENGTH_SHORT).show()
+        var call = network.uploadFile(fileToUpload, filename)
+
+        call.enqueue(object : Callback<ServerResponse> {
+            override fun onResponse(call: Call<ServerResponse>, response: Response<ServerResponse>) {
+                val serverResponse = response.body()
+                if (serverResponse != null) {
+                    if (serverResponse!!.success) {
+                        onSuccess()
+                        //Toast.makeText(context, "ololo", Toast.LENGTH_SHORT).show()
+                    } else {
+                        onFailur()
+                        //Toast.makeText(context, "wtf", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
+                    assert(serverResponse != null)
                     onFailur()
-                    Toast.makeText(context, "wtf", Toast.LENGTH_SHORT).show()
                 }
+                //           progressDialog!!.dismiss()
             }
 
-            override fun onFailure(call: Call<List<Answer>>, t: Throwable) {
+            override fun onFailure(call: Call<ServerResponse>, t: Throwable) {
                 onFailur()
             }
         })

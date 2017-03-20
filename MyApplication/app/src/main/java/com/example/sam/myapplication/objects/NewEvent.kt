@@ -15,19 +15,19 @@ class NewEvent{
     public var timeEnd: Time=Time(0)
     public var name:String="no name"
     public var info:String="no info"
-    public var imgUri: Uri?=null
+    public var imgPath: String=""
     public var id_user:Int=0
     public var tagID:Int=0
 
     constructor(_date: Date, _timeB: Time,
                 _timeE: Time, _name:String, _info:String,
-                uri: Uri?, _id_user:Int, _tagID:Int ){
+                uri: String, _id_user:Int, _tagID:Int ){
         date = _date
         timeBegin = _timeB
         timeEnd = _timeE
         name= _name
         info = _info
-        imgUri = uri
+        imgPath = uri
         id_user = _id_user
         tagID = _tagID
     }

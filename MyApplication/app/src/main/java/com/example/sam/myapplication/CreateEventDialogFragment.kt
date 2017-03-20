@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.sam.myapplication.model.CurrentUser
+import com.example.sam.myapplication.model.DataManager
 import com.example.sam.myapplication.model.NewEventManager
 import com.example.sam.myapplication.objects.NewEvent
 import java.io.FileNotFoundException
@@ -120,10 +121,13 @@ class CreateEventDialogFragment: DialogFragment() {
 
                     try {
                         var imageUri = data!!.data
-                        //TODO !!!!!!!!!!!!!!!!!!!
                         var bitmap= MediaStore.Images.Media.getBitmap(activity.contentResolver,imageUri)
+                        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                        val cursor = activity.contentResolver.query(imageUri, filePathColumn, null, null, null)!!
+                        cursor.moveToFirst()
+                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+                        event.imgPath = cursor.getString(columnIndex)
                         img.setImageBitmap(bitmap)
-                        event.imgUri=imageUri
                     }catch (e: FileNotFoundException){
                         e.printStackTrace()
                     }

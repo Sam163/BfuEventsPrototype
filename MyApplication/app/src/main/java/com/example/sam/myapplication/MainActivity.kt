@@ -1,7 +1,10 @@
 package com.example.sam.myapplication
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
+import android.app.Activity
 import android.app.FragmentManager
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,7 +13,9 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.view.View
 import android.support.design.widget.NavigationView
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v4.widget.SwipeRefreshLayout
@@ -61,6 +66,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navMail = navigationView.getHeaderView(0).findViewById(R.id.user_mail) as TextView
         navMail.text = CurrentUser.login
 
+        getPermission()
+
         if(CurrentUser.canIAddEvewnts()){
             navigationView.getMenu().findItem(R.id.nav_created_events).setVisible(true)
         }
@@ -70,20 +77,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
+
+
     fun getPermission(){
-        @TargetApi(Build.VERSION_CODES.M)
-        if (checkSelfPermission(Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
-            if (shouldShowRequestPermissionRationale(
-                    Manifest.permission.WRITE_CALENDAR)) {
-                // Explain to the user why we need to read the contacts
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            @TargetApi(Build.VERSION_CODES.M)
+            if (ContextCompat.checkSelfPermission(applicationContext,Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                @TargetApi(Build.VERSION_CODES.M)
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+// Explain to the user why we need to read the contacts
+                }
+                requestPermissions(arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+
             }
-
-            requestPermissions(arrayOf<String>(Manifest.permission.WRITE_CALENDAR), 1)
-
-            // MY_PERMISSIONS_REQUEST_WRITE_CALENDAR is an
-            // app-defined int constant that should be quite unique
         }
     }
 

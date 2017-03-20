@@ -114,6 +114,38 @@ class DataManager(var context: Context) {
         }
     }
 
+    public fun deleteEvent(idEvent:Int) {
+
+        var adapter = Retrofit.Builder()
+                .baseUrl(ROOT_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+        var network = adapter.create<DeleteEvent>(DeleteEvent::class.java!!)
+        var call = network.delete( idEvent)
+        call.enqueue(object : Callback<List<Answer>> {
+            override fun onResponse(call: Call<List<Answer>>?, response: Response<List<Answer>>?) {
+                if(response!!.isSuccessful()) {
+
+                    var output = response.body()
+                    if(output[0].answer =="successfully") {
+                        LDbHelper.deleteEventByID(idEvent)
+                        onSuccess(output[0].answer)
+                    }
+                    else{
+                        onFailur(output[0].answer)
+                    }
+                }else {
+                    onFailur(response!!.message())
+                }
+            }
+            override fun onFailure(call: Call<List<Answer>>?, t: Throwable?) {
+                onFailur(t!!.message.toString())
+            }
+
+        })
+    }
+
     public fun cacheFreshDB(){
         if(LDbHelper.isLocalDataBaseExist(context)) {
             LDbHelper.initLDbHelper(context)

@@ -50,8 +50,8 @@ class MarkingManager (var context: Context, var idEvent: Int, var markType: Int)
 
                     var output = response.body()
                     if(output[0].answer =="successfully") {
-                        onSuccess(output[0].answer)
                         DataManager.setLikeOnSuccessTransaction(idEvent, markType)
+                        onSuccess(output[0].answer)
                     }
                     else{
                         onFailur(output[0].answer)

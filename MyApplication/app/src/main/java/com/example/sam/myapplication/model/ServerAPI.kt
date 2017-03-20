@@ -25,7 +25,7 @@ import retrofit2.http.Multipart
 
 
 val ROOT_URL = "http://eventofbfu.96.lt/"
-
+/*
 interface PostImage {
     @Multipart
     @POST("uploadImage.php")
@@ -33,6 +33,20 @@ interface PostImage {
             @Part file: MultipartBody.Part,
             @Part("file") name: RequestBody,
             @Field("id_event") id_event:Int): Call<List<Answer>>
+}*/
+interface PostImage {
+    @Multipart
+    @POST("uploadImage.php")
+    fun uploadFile(@Part file: MultipartBody.Part,
+                   @Part("file") name: RequestBody): Call<ServerResponse>
+}
+
+interface DeleteEvent {
+    @FormUrlEncoded
+    @POST("deleteEvent.php")
+    public fun delete(
+            @Field("id_event") idEvent:Int
+    ): Call<List<Answer>>
 }
 
 interface RegisterUser {

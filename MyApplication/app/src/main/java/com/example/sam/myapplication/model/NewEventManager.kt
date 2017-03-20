@@ -40,14 +40,16 @@ class NewEventManager(var context:Context, var newEvent: NewEvent) {
                                         newEvent.name, newEvent.info, "",0,0,
                                         CurrentUser.name,CurrentUser.login)
                         )
-                        var p=PictureToSend(idEvent, newEvent.imgUri!!)
+                        onSuccess("")
+                        //TODO пока на сервере не генерится урл для пикчи
+                        /*var p=PictureToSend(idEvent, newEvent.imgPath!!)
                         var postman = SendPictureManager(context,p)
                         postman.onSuccess={
                             onSuccess("")
                         }
                         postman.onFailur={
                         }
-                        postman.send()
+                        postman.send()*/
                     }
                     else{
                         onFailur("")

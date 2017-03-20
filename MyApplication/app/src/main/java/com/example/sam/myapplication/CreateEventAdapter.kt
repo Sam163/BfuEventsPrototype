@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.sam.myapplication.objects.Event
 import com.example.sam.myapplication.R
+import com.example.sam.myapplication.model.DataManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,7 +45,14 @@ class CreateEventAdapter : RecyclerView.Adapter<CreateEventAdapter.ViewHolder>()
             clickCallback.onEventClick(event)
         }
         holder.img.setOnClickListener {
-            clickCallback.onEditClick(event)
+            var del=DataManager(holder!!.view.context)
+            del.onSuccess={
+                data.removeAt(position)
+                notifyDataSetChanged()
+            }
+            del.onFailur={}
+            del.deleteEvent(event.id)
+            //clickCallback.onEditClick(event)//todo
         }
     }
 
