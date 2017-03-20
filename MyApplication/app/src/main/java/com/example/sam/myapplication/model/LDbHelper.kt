@@ -56,14 +56,15 @@ class LDbHelper private constructor (context: Context) : SQLiteOpenHelper(contex
 
             //таб. мои созданные события
             private val DB_TABLE_MYEVENTS = "my_event"
-            //private val DB_COLUMN_EVENTID = "id_event"//дублирование
+            //private val DB_COLUMN_EVENTID = "id_event"
 
             //таб. мои отмеченные события
             private val DB_TABLE_MARKEVENTS = "mark_event"
             private val DB_COLUMN_TYPE = "mark_type"
+            //private val DB_COLUMN_EVENTID = "id_event"
             public val MARK_TYPE_INTERESTED = 2
             public val MARK_TYPE_ILLGO = 1
-            //private val DB_COLUMN_EVENTID = "id_event"//дублирование
+
 
             private val DB_CREATE_EVENTS = "CREATE TABLE " +
                     DB_TABLE_EVENTS + "( _id INTEGER NOT NULL PRIMARY KEY, " +
@@ -409,6 +410,13 @@ class LDbHelper private constructor (context: Context) : SQLiteOpenHelper(contex
 
             public fun deleteEventByID(id:Int){
                 db!!.delete(DB_TABLE_EVENTS, "_id = ?",  arrayOf(id.toString()))
+            }
+
+            public fun deleteMarkEvent(eventID: Int, mark: Int){
+                db!!.execSQL("DELETE FROM " +DB_TABLE_MARKEVENTS+
+                        " WHERE "+DB_COLUMN_TYPE+" = "+mark.toString()+" AND "+
+                        DB_COLUMN_EVENTID + " = "+eventID.toString()
+                )
             }
 
             public fun closeLDbHelper() {

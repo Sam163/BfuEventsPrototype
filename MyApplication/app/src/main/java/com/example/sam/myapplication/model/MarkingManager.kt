@@ -66,4 +66,35 @@ class MarkingManager (var context: Context, var idEvent: Int, var markType: Int)
 
         })
     }
+    public fun SendUnLikeToServer() {
+
+        var adapter = Retrofit.Builder()
+                .baseUrl(ROOT_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+        var network = adapter.create<RemoveLike>(RemoveLike::class.java!!)
+        var call = network.removeLike(CurrentUser._id, idEvent, markType)
+        call.enqueue(object : Callback<List<Answer>> {
+            override fun onResponse(call: Call<List<Answer>>?, response: Response<List<Answer>>?) {
+                if(response!!.isSuccessful()) {
+
+                    var output = response.body()
+                    if(output[0].answer =="successfully") {
+                        onSuccess(output[0].answer)
+                        DataManager.deleteLikeOnSuccessTransaction(idEvent, markType)
+                    }
+                    else{
+                        onFailur(output[0].answer)
+                    }
+                }else {
+                    onFailur(response!!.message())
+                }
+            }
+            override fun onFailure(call: Call<List<Answer>>?, t: Throwable?) {
+                onFailur(t!!.message.toString())
+            }
+
+        })
+    }
 }

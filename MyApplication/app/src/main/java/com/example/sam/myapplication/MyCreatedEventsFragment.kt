@@ -44,7 +44,7 @@ class MyCreatedEventsFragment : Fragment() {
 
     fun graphicalPart(view: View){
         var recycler = view.findViewById(R.id.day_recycler) as RecyclerView
-        var adapter = EventAdapter()
+        var adapter = CreateEventAdapter()
 
 
         adapter.data = DataManager.getMyCreatedEvents()

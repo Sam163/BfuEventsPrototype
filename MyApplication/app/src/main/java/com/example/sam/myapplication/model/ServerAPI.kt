@@ -8,10 +8,6 @@ import com.example.sam.myapplication.toSqlTime
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -19,8 +15,25 @@ import java.sql.Connection
 import java.sql.Date
 import java.sql.DriverManager
 import java.sql.Time
+import okhttp3.RequestBody
+import okhttp3.MultipartBody
+import retrofit2.http.*
+import retrofit2.http.POST
+import retrofit2.http.Multipart
+
+
+
 
 val ROOT_URL = "http://eventofbfu.96.lt/"
+
+interface PostImage {
+    @Multipart
+    @POST("uploadImage.php")
+    fun uploadFile(
+            @Part file: MultipartBody.Part,
+            @Part("file") name: RequestBody,
+            @Field("id_event") id_event:Int): Call<List<Answer>>
+}
 
 interface RegisterUser {
     @FormUrlEncoded
@@ -36,6 +49,16 @@ interface AddLike {
     @FormUrlEncoded
     @POST("addLike.php")
     public fun insertLike(
+            @Field("id_user") idUser:Int,
+            @Field("id_event") idEvent:Int,
+            @Field("id_type") idType:Int
+    ): Call<List<Answer>>
+}
+
+interface RemoveLike {
+    @FormUrlEncoded
+    @POST("removeLike.php")
+    public fun removeLike(
             @Field("id_user") idUser:Int,
             @Field("id_event") idEvent:Int,
             @Field("id_type") idType:Int

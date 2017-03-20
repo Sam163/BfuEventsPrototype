@@ -108,6 +108,10 @@ class DataManager(var context: Context) {
         fun setLikeOnSuccessTransaction(idEvent:Int, idType:Int){
             LDbHelper.addMarkEvent(idEvent,idType)
         }
+
+        fun deleteLikeOnSuccessTransaction(idEvent:Int, idType:Int){
+            LDbHelper.deleteMarkEvent(idEvent,idType)
+        }
     }
 
     public fun cacheFreshDB(){

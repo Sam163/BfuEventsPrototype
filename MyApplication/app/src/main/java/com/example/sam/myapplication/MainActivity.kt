@@ -26,7 +26,7 @@ import com.example.sam.myapplication.objects.Event
 import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DayEventAdapter.onDayClickListener,
-        EventAdapter.onEventClickListener {
+        EventAdapter.onEventClickListener, CreateEventAdapter.onCreateEventClickListener {
 
     companion object{
         val REQUEST_CREATE_EVENT = 0
@@ -121,6 +121,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         title = "События"
     }
 
+    override fun onEditClick(event: Event) {
+        var fragment = EditEventFragment()
+        EditEventFragment.event = event
+        var tr = supportFragmentManager.beginTransaction()
+        tr.replace(R.id.fragment, fragment)
+        tr.addToBackStack("editEvent")
+        tr.commit()
+
+        title = "Редактирование"
+    }
+
     override fun onBackPressed() {
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -147,6 +158,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_events -> openAllEventsFragment()
             R.id.nav_my_events -> openMyEventsFragment()
             R.id.nav_created_events -> openCratedEventsFragment()
+            R.id.nav_exit -> openAuthorisationActivity()
         }
         clearBackStack()
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
@@ -161,6 +173,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun openAllEventsFragment(){
         var fragment = AllEventsFragment()
+        clearBackStack()
         var tr = supportFragmentManager.beginTransaction()
         tr.replace(R.id.fragment, fragment)
         //tr.addToBackStack("fragment")
@@ -171,6 +184,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun openTodayEventsFragment(){
         var fragment = EventsOnDayFragment()
+        clearBackStack()
         EventsOnDayFragment.events = DataManager.getEventsByDate(Date())
         fragment.flag = EventsOnDayFragment.FLAG_TODAY_EVENTS
         var tr = supportFragmentManager.beginTransaction()
@@ -183,6 +197,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun openMyEventsFragment(){
         var fragment = MyEventsFragment()
+        clearBackStack()
         fragment.flag = EventsOnDayFragment.FLAG_TODAY_EVENTS
         var tr = supportFragmentManager.beginTransaction()
         tr.replace(R.id.fragment, fragment)
@@ -194,10 +209,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun openCratedEventsFragment(){
         var fragment = MyCreatedEventsFragment()
+        clearBackStack()
         var tr = supportFragmentManager.beginTransaction()
         tr.replace(R.id.fragment, fragment)
         //tr.addToBackStack("fragment")
         tr.commit()
         title = "Созданные события"
+    }
+
+    private fun openAuthorisationActivity(){
+        var intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

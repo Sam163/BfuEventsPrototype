@@ -5,8 +5,10 @@ import android.app.DialogFragment
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -118,8 +120,10 @@ class CreateEventDialogFragment: DialogFragment() {
 
                     try {
                         var imageUri = data!!.data
-                        img.setImageBitmap(getBitmap(imageUri))
-                        event.img=getBitmap(imageUri)
+                        //TODO !!!!!!!!!!!!!!!!!!!
+                        var bitmap= MediaStore.Images.Media.getBitmap(activity.contentResolver,imageUri)
+                        img.setImageBitmap(bitmap)
+                        event.imgUri=imageUri
                     }catch (e: FileNotFoundException){
                         e.printStackTrace()
                     }

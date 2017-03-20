@@ -20,6 +20,8 @@ import android.graphics.Color
 import android.widget.*
 import com.example.sam.myapplication.objects.Event
 import com.example.sam.myapplication.R
+import com.example.sam.myapplication.model.DataManager
+import com.example.sam.myapplication.model.LDbHelper
 import com.example.sam.myapplication.model.MarkingManager
 import com.example.sam.myapplication.model.PictureManager
 
@@ -93,6 +95,20 @@ class EventFragment : Fragment() {
                     }
                 }
                 query.SendLikeToServer()
+            } else{
+                var query=MarkingManager(context, event.id, MarkingManager.getMarkInterested())
+                query.onSuccess={s->
+                    likeButton.setBackgroundResource(R.drawable.btn_unlike)
+                    likeButton.setTextColor(Color.BLACK)
+                    likeButton.text = TXT_NOT_INTERESTED
+                }
+                query.onFailur={s->
+                    Toast.makeText(activity.applicationContext, "Упс! Не удалось завершить запрос!", Toast.LENGTH_SHORT).show()
+                    likeButton.setBackgroundResource(R.drawable.btn_like)
+                    likeButton.setTextColor(Color.WHITE)
+                    likeButton.text = TXT_INTERESTED
+                }
+                query.SendUnLikeToServer()
             }
         }
         retainInstance = true
